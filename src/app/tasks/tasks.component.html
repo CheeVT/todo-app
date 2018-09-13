@@ -1,3 +1,6 @@
-<p>
-  tasks works!
-</p>
+<h2>My todo list</h2>
+<div class="row">
+  <ul>
+    <li *ngFor="let task of tasks">{{ task.task }}</li>
+  </ul>
+</div>
