@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'tasks', component: TasksComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  //{ path: 'logout' }
+  { path: 'logout', redirectTo: '/login' }
 ];
 
 @NgModule({

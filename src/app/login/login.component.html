@@ -17,4 +17,7 @@
 
     <button (click)="login(email.value, password.value)" type="button" class="btn btn-primary">Login</button>
   </form>
+  <div *ngIf="loginError" class="alert alert-danger">
+    {{loginError}}
+  </div>
 </div>

@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
+import { Headers } from '@angular/http';
 
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
 
 import { Task } from '../task';
-//import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
 
-const httpOptions = {
-    headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'bearer ' + localStorage.getItem('token')
-    })
-};
 
 @Injectable()
 export class TasksService {
     apiUrl = 'http://127.0.0.1:8000/api/';
 
     constructor(private http: HttpClient) {
-        //this.handleError = httpErrorHandler.createHandleError('TasksService');
+
+    }
+
+    createAuthorizationHeader() {
+        let headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer ' + localStorage.getItem('token')
+        });
+        return headers;
     }
 
     getAllTasks(): Observable<Task[]> {
@@ -29,9 +31,20 @@ export class TasksService {
     }
 
     get(userId): Observable<Task[]> {
-
-        return this.http.get<Task[]>(this.apiUrl + 'tasks', httpOptions);
+        let headers = this.createAuthorizationHeader();
+        return this.http.get<Task[]>(this.apiUrl + 'tasks', { headers: headers });
     }
+
+    add(task): Observable<Task> {
+        let headers = this.createAuthorizationHeader();
+        return this.http.post<Task>(this.apiUrl + 'tasks', { task: task }, { headers: headers });
+    }
+
+    delete(id) {
+        let headers = this.createAuthorizationHeader();
+        return this.http.delete(this.apiUrl + 'tasks/' + id, { headers: headers });
+    }
+
 
     /*getTasks() {
         return this.http.get(this.apiUrl + 'guest-tasks');

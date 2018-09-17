@@ -1,6 +1,25 @@
 <h2>My todo list</h2>
 <div class="row">
-  <ul>
-    <li *ngFor="let task of tasks">{{ task.task }}</li>
-  </ul>
+  <form>
+    <input #task type="text" />
+    <button (click)="addNew(task.value)">Add new</button>
+  </form>
+</div>
+
+<div class="row">
+  <div *ngIf="tasks?.length > 0; else noResult">
+    <ul class="list-group">
+      <li *ngFor="let task of tasks" class="list-group-item">{{ task.task }}
+        <ul class="list-inline">
+          <li><button>Edit</button></li>
+          <li><button (click)="delete(task.id)">Delete</button></li>
+          <li><button [ngClass]="{'btn-active' : task.is_priority}" title="Is priority?">P</button></li>
+          <li><button (click)="update()" [ngClass]="{'btn-active' : task.is_done}" title="Is done?">D</button></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <ng-template #noResult>
+    There are not results!
+  </ng-template>
 </div>

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  isLoginError = false;
+  loginError = '';
   constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('token', user.token);
       this.router.navigate(['/tasks']);
     }, (err: HttpErrorResponse) => {
-      this.isLoginError = true;
+      this.loginError = err.error.error;
     });
   }
 

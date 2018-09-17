@@ -1,0 +1,13 @@
+.list-inline {
+    border-top: 1px solid #000;
+    padding-top: 5px;
+    margin-top: 5px;
+}
+
+.list-inline li {
+    display: inline;
+}
+
+.btn-active {
+    background: red;
+}

@@ -10,6 +10,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuardService as AuthGuard } from './auth-guard.service';
 import { LoginService } from './login/login.service';
 import { TasksService } from './tasks/tasks.service';
+import { MessageService } from './message.service';
 
 import { AppComponent } from './app.component';
 import { TasksComponent } from './tasks/tasks.component';
@@ -45,7 +46,8 @@ export function tokenGetter() {
   providers: [
     AuthGuard,
     LoginService,
-    TasksService
+    TasksService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

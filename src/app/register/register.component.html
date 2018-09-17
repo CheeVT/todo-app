@@ -29,4 +29,8 @@
 
     <button type="submit" class="btn btn-primary">Register</button>
   </form>
+  <div *ngIf="regSuccess != ''" class="alert alert-success">{{ regSuccess }}</div>
+  <div *ngIf="regErrors?.length > 0">
+    <div *ngFor="let error of regErrors" class="alert alert-danger">{{ error }}</div>
+  </div>
 </div>
