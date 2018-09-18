@@ -14,13 +14,13 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class TasksComponent implements OnInit {
 
   tasks: Task[];
+  newTask = new Task('');
+  isEditable: boolean = false;
 
   constructor(private tasksService: TasksService, private jwt: JwtHelperService) { }
 
   ngOnInit() {
     this.getTasks();
-    //console.log('Tasks: ', this.tasks);    
-    //console.log(this.tasks.length);
   }
 
   getTasks(): void {
@@ -32,14 +32,40 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  addNew(value) {
-    this.tasksService.add(value).subscribe(task => {
+
+  store() {
+    this.tasksService.add(this.newTask).subscribe(task => {
       this.tasks.push(task);
     });
+    this.newTask = new Task('');
   }
 
-  update(values) {
-    console.log(values);
+  edit(id, task) {
+    this.isEditable = true;
+    this.newTask = new Task(task, id);
+  }
+
+  update() {
+    this.tasksService.update(this.newTask.id, this.newTask).subscribe(task => {
+      this.cancelEdit();
+      let index = this.tasks.findIndex(tasks => tasks.id === task.id);
+      this.tasks.splice(index, 1);
+      this.tasks.splice(index, 0, task);
+    })
+  }
+
+  cancelEdit() {
+    this.isEditable = false;
+    this.newTask = new Task('');
+  }
+
+  updateIsDone(id, isDone) {
+    this.tasksService.update(id, { is_done: !isDone }).subscribe(task => {
+
+    })
+  }
+  updateIsPriority(id, isPriority) {
+    this.tasksService.update(id, { is_priority: !isPriority }).subscribe();
   }
 
   delete(id) {
@@ -47,6 +73,7 @@ export class TasksComponent implements OnInit {
       this.tasksService.delete(id).subscribe(task => {
         let index = this.tasks.findIndex(tasks => tasks.id === id);
         this.tasks.splice(index, 1);
+        this.cancelEdit();
       });
     }
   }

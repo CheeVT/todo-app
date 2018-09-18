@@ -5,7 +5,6 @@ import { User } from '../user';
 import { RegisterService } from './register.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { timeInterval } from 'rxjs/operator/timeInterval';
 
 @Component({
   selector: 'app-register',
@@ -26,6 +25,7 @@ export class RegisterComponent implements OnInit {
 
   register() {
     this.registerService.register(this.user).subscribe(user => {
+      this.regErrors = [];
       this.regSuccess = 'You have successfully registered! You can login to your account';
       setTimeout(() => {
         this.router.navigate(['/login']);

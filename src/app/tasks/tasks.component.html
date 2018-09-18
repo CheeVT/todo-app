@@ -1,8 +1,9 @@
 <h2>My todo list</h2>
 <div class="row">
-  <form>
-    <input #task type="text" />
-    <button (click)="addNew(task.value)">Add new</button>
+  <form (ngSubmit)="!isEditable ? store() : update()" #form="ngForm">
+    <input type="text" id="task" [(ngModel)]="newTask.task" name="task" />
+    <button type="submit">{{!isEditable ? 'Add new' : 'Update' }}</button>
+    <button *ngIf="isEditable" (click)="cancelEdit()">Cancel</button>
   </form>
 </div>
 
@@ -11,15 +12,17 @@
     <ul class="list-group">
       <li *ngFor="let task of tasks" class="list-group-item">{{ task.task }}
         <ul class="list-inline">
-          <li><button>Edit</button></li>
+          <li><button (click)="edit(task.id, task.task)">Edit</button></li>
           <li><button (click)="delete(task.id)">Delete</button></li>
-          <li><button [ngClass]="{'btn-active' : task.is_priority}" title="Is priority?">P</button></li>
-          <li><button (click)="update()" [ngClass]="{'btn-active' : task.is_done}" title="Is done?">D</button></li>
+          <li><button (click)="updateIsPriority(task.id, task.is_priority); task.is_priority = !task.is_priority;" [ngClass]="{'btn-priority' : task.is_priority, '':!task.is_priority}"
+              title="Is priority? {{ task.is_priority ? 'Yes, it is.' : 'No, it is not.'}}">P</button></li>
+          <li><button (click)="updateIsDone(task.id, task.is_done); task.is_done = !task.is_done;" [ngClass]="{'btn-done': task.is_done, '': !task.is_done}"
+              title="Is done? {{ task.is_done ? 'Yes, it is.' : 'No, it is not.' }}">D</button></li>
         </ul>
       </li>
     </ul>
   </div>
   <ng-template #noResult>
-    There are not results!
+    There are not todos yet! Fill above field and click "Add new" button
   </ng-template>
 </div>

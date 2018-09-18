@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '../user';
 import { LoginService } from './login.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -25,7 +24,6 @@ export class LoginComponent implements OnInit {
     };
 
     this.loginService.login(params).subscribe(user => {
-      //console.log(user.token);
       localStorage.setItem('token', user.token);
       this.router.navigate(['/tasks']);
     }, (err: HttpErrorResponse) => {

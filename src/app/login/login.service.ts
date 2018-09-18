@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
-import { of } from 'rxjs/observable/of';
-import { catchError, tap } from 'rxjs/operators';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -26,7 +24,6 @@ export class LoginService {
     login(params): Observable<User> {
         return this.http.post<User>(this.apiUrl + 'login', params);
     }
-
 
     public isAuthenticated(): boolean {
         const TOKEN = localStorage.getItem('token');

@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
-import { Headers } from '@angular/http';
 
 import { Observable } from 'rxjs';
-import { of } from 'rxjs/observable/of';
-import { catchError } from 'rxjs/operators';
 
 import { Task } from '../task';
 
@@ -26,9 +23,6 @@ export class TasksService {
         return headers;
     }
 
-    getAllTasks(): Observable<Task[]> {
-        return this.http.get<Task[]>(this.apiUrl + 'guest-tasks');
-    }
 
     get(userId): Observable<Task[]> {
         let headers = this.createAuthorizationHeader();
@@ -37,16 +31,16 @@ export class TasksService {
 
     add(task): Observable<Task> {
         let headers = this.createAuthorizationHeader();
-        return this.http.post<Task>(this.apiUrl + 'tasks', { task: task }, { headers: headers });
+        return this.http.post<Task>(this.apiUrl + 'tasks', task, { headers: headers });
+    }
+
+    update(id, task): Observable<Task> {
+        let headers = this.createAuthorizationHeader();
+        return this.http.put<Task>(this.apiUrl + 'tasks/' + id, task, { headers: headers });
     }
 
     delete(id) {
         let headers = this.createAuthorizationHeader();
         return this.http.delete(this.apiUrl + 'tasks/' + id, { headers: headers });
     }
-
-
-    /*getTasks() {
-        return this.http.get(this.apiUrl + 'guest-tasks');
-    }*/
 }

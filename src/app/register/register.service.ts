@@ -15,8 +15,6 @@ const httpOptions = {
 export class RegisterService {
     apiUrl = 'http://127.0.0.1:8000/api/';
 
-    //user = new User();
-
     constructor(private http: HttpClient) { }
 
     register(data): Observable<User> {

@@ -11,3 +11,10 @@
 .btn-active {
     background: red;
 }
+
+.btn-done {
+    background: green;
+}
+.btn-priority {
+    background: red;
+}
